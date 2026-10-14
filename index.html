@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>A Lenda dos Três Artefatos</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="wrap">
+  <div id="stage">
+    <canvas id="game" width="960" height="640"></canvas>
+    <canvas id="minimap" width="150" height="100"></canvas>
+
+    <div id="hud">
+      <div id="hud-top">
+        <div id="art-panel" class="hud-card">
+          <div class="hud-title">✨ ARTEFATOS MÁGICOS</div>
+          <div class="art-slots">
+            <div class="art-slot" id="slot1"><span class="art-ico" id="art1">💎</span><span class="art-name">Cristal da Luz</span></div>
+            <div class="art-slot" id="slot2"><span class="art-ico" id="art2">🔮</span><span class="art-name">Orbe das Águas</span></div>
+            <div class="art-slot" id="slot3"><span class="art-ico" id="art3">🗡️</span><span class="art-name">Espada Ancestral</span></div>
+          </div>
+        </div>
+        <div id="region-chip" class="hud-card">
+          <div id="region">Cidade de Eldoria</div>
+          <div id="phase">Fase 1 — O Chamado de Eldoria</div>
+        </div>
+        <div id="status-panel" class="hud-card">
+          <div class="bar"><span class="bic">❤️</span><div class="track"><div id="hp-fill"></div></div><small id="hp-text"></small></div>
+          <div class="bar"><span class="bic">🔷</span><div class="track mana"><div id="mp-fill"></div></div><small id="mp-text"></small></div>
+          <div class="srow"><span title="Moedas">🪙 <b id="coins">0</b></span><span title="Pontuação">⭐ <b id="score">0</b></span><span title="Poções">🧪 <b id="pot-count"></b></span><span id="key-count" title="Chaves"></span></div>
+        </div>
+      </div>
+
+      <div id="mission" class="hud-card">
+        <div class="m-title">📜 MISSÃO ATUAL</div>
+        <div id="objective">Fale com o prefeito</div>
+        <div id="mission-hint"></div>
+      </div>
+
+      <div id="controls-hint" class="hud-card">
+        <div id="ctx-hint"></div>
+        <div class="keys">⌨️ <b>WASD</b> mover &nbsp;•&nbsp; <b>Espaço</b> atacar &nbsp;•&nbsp; <b>E</b> interagir &nbsp;•&nbsp; <b>F</b> magia &nbsp;•&nbsp; <b>Q</b> poção</div>
+      </div>
+
+      <div id="skills" class="hud-card">
+        <button onclick="Game.melee()" title="Atacar (Espaço)">⚔️<small>Atacar</small></button>
+        <button onclick="Game.castFireball()" title="Magia (F, 20 mana)">🔥<small>Magia</small></button>
+        <button onclick="Game.usePotion()" title="Poção (Q, +50 vida)">🧪<small>Poção</small></button>
+      </div>
+    </div>
+
+    <div id="quest-pop" class="hidden"><b>📜 Nova missão</b><span id="quest-text"></span></div>
+    <div id="artifact-flash" class="hidden"></div>
+    <div id="artifact-pop" class="hidden"><div id="artifact-ico">💎</div><div id="artifact-name"></div><div class="ap-sub">Artefato encontrado!</div></div>
+
+    <div id="banner"><div class="b-title"></div><div class="b-sub"></div></div>
+    <div id="toast"></div>
+
+    <div id="dialog" class="hidden">
+      <div id="dlg-face">🙂</div>
+      <div id="dlg-body">
+        <div id="dlg-name">???</div>
+        <div id="dlg-text"></div>
+        <div id="dlg-opts"></div>
+        <div id="dlg-hint">[E] continuar…</div>
+      </div>
+    </div>
+
+    <div id="touch">
+      <div class="dpad">
+        <button id="t-up">▲</button>
+        <div><button id="t-left">◀</button><button id="t-down">▼</button><button id="t-right">▶</button></div>
+      </div>
+      <div class="tbtns">
+        <button id="t-atk">⚔️</button>
+        <button id="t-mag">🔥</button>
+        <button id="t-int">E</button>
+        <button id="t-pot">🧪</button>
+      </div>
+    </div>
+
+    <div id="intro" class="title-screen">
+      <div class="tsky"></div>
+      <div class="tstars"></div>
+      <div class="tmoon"></div>
+      <div class="tmounts"></div>
+      <div class="tcastle">🏰</div>
+      <div class="troofs"></div>
+      <div class="tfog"></div>
+      <span class="mote m1"></span><span class="mote m2"></span><span class="mote m3"></span><span class="mote m4"></span><span class="mote m5"></span><span class="mote m6"></span><span class="mote m7"></span><span class="mote m8"></span>
+      <div class="tcontent">
+        <div class="t-over">⚔️ UMA AVENTURA DE FANTASIA ⚔️</div>
+        <h1 class="t-title">A LENDA<br>DOS TRÊS ARTEFATOS</h1>
+        <div class="t-rule"><span>💎</span><span>🔮</span><span>🗡️</span></div>
+        <p class="t-story">A cidade de Eldoria está em perigo. Explore terras misteriosas, enfrente criaturas sombrias e encontre os três artefatos mágicos necessários para salvar seus habitantes.</p>
+        <div class="t-btns">
+          <button id="btn-start" class="btn-big">▶ JOGAR AGORA</button>
+          <button id="btn-how" class="btn-line" onclick="document.getElementById('how').classList.remove('hidden')">❓ COMO JOGAR</button>
+        </div>
+        <button id="btn-continue" class="btn-line ghost">💾 Continuar progresso salvo</button>
+      </div>
+    </div>
+
+    <div id="how" class="overlay hidden">
+      <div class="panel how-panel">
+        <h2>❓ Como jogar</h2>
+        <div class="how-grid">
+          <div><b>🎮 Controles</b><br>WASD / setas — mover<br>Espaço — atacar com espada<br>E — falar, abrir, usar<br>F — magia de fogo (20 mana)<br>Q — beber poção (+50 ❤️)<br>I ou Esc — inventário / pausa</div>
+          <div><b>🎯 Objetivo</b><br>Encontre os 3 artefatos:<br>💎 Cristal da Luz — Floresta (norte)<br>🔮 Orbe das Águas — Ruínas (sul)<br>🗡️ Espada Ancestral — Castelo<br>Depois vá ao Santuário Final (leste) e derrote Malakar.</div>
+          <div><b>⚔️ Combate</b><br>Aproxime-se e ataque. Inimigos com magia mantêm distância — use sua bola de fogo. Derrotados, eles deixam moedas e poções. Cuidado com os chefes!</div>
+          <div><b>🎒 Coleta</b><br>Baús guardam poções, moedas, chaves e tesouros. Siga a seta dourada e o painel <b>MISSÃO ATUAL</b>. Fale com todos: eles dão dicas valiosas.</div>
+        </div>
+        <button class="btn-big" onclick="document.getElementById('how').classList.add('hidden')">Entendi, vamos lá!</button>
+      </div>
+    </div>
+
+    <div id="pause" class="overlay hidden">
+      <div class="panel">
+        <h2>⏸️ Pausa — Inventário</h2>
+        <div id="inv-stats"></div>
+        <div id="inv-items"></div>
+        <div class="row">
+          <button id="btn-resume">▶ Voltar</button>
+          <button id="btn-save">💾 Salvar</button>
+          <button id="btn-load">📂 Carregar</button>
+          <button id="btn-quit" class="ghost">Sair p/ título</button>
+          <button id="btn-close-inv" class="ghost">Fechar (I)</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="dead" class="overlay hidden">
+      <div class="panel">
+        <h2>💀 Você caiu...</h2>
+        <p>Mas a esperança de Eldoria não morreu. Tente novamente!</p>
+        <button id="btn-retry">🔄 Tentar de novo</button>
+      </div>
+    </div>
+
+    <div id="win" class="overlay hidden">
+      <div class="panel">
+        <h2>🏆 Eldoria está salva!</h2>
+        <p>Malakar foi derrotado. Os três artefatos brilham sobre a cidade e o povo celebra seu nome, herói!</p>
+        <div id="win-stats"></div>
+        <button id="btn-again">🔄 Jogar novamente</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>A Lenda dos Três Artefatos • HTML/CSS/JS + Canvas • Save em localStorage • Sem dependências externas</footer>
+</div>
+<script src="js/audio.js"></script>
+<script src="js/data.js"></script>
+<script src="js/save.js"></script>
+<script src="js/quests.js"></script>
+<script src="js/npcs.js"></script>
+<script src="js/enemies.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/main.js"></script>
+<script>window.addEventListener('load',()=>Game.init());</script>
+</body>
+</html>

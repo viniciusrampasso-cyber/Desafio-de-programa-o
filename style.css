@@ -1,0 +1,48 @@
+*{box-sizing:border-box}body{margin:0;background:#0b0f1a;color:#e5e7eb;font-family:system-ui,Segoe UI,Roboto,sans-serif}
+#wrap{max-width:1000px;margin:0 auto;padding:8px}
+#topbar{display:flex;justify-content:space-between;align-items:center;background:linear-gradient(90deg,#312e81,#6d28d9);padding:8px 12px;border-radius:10px}
+.brand{font-weight:800}#phase{font-size:13px;opacity:.9}
+#hud{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0;align-items:center}
+.bar{display:flex;align-items:center;gap:6px;background:#111827;padding:4px 8px;border-radius:8px;border:1px solid #374151}
+.track{width:120px;height:12px;background:#1f2937;border-radius:6px;overflow:hidden}
+#hp-fill{height:100%;width:100%;background:linear-gradient(90deg,#ef4444,#f87171)}
+.track.mana #mp-fill{height:100%;width:100%;background:linear-gradient(90deg,#3b82f6,#60a5fa)}
+.bar small{font-size:11px;opacity:.8}
+.pill{background:#111827;border:1px solid #374151;padding:4px 10px;border-radius:20px;font-size:13px}
+#arts span{filter:grayscale(1);opacity:.35;font-size:16px;margin:0 2px}
+#arts span.got{filter:none;opacity:1}
+#objective{background:#451a03;border:1px solid #92400e;padding:6px 10px;border-radius:8px;margin-bottom:8px;font-size:14px}
+#stage{position:relative}
+#game{width:100%;height:auto;background:#000;border-radius:12px;border:2px solid #4c1d95;display:block}
+#banner{position:absolute;top:14px;left:50%;transform:translateX(-50%) translateY(-8px);background:rgba(0,0,0,.8);border:1px solid #facc15;padding:8px 18px;border-radius:12px;text-align:center;opacity:0;transition:.3s;pointer-events:none;max-width:90%}
+#banner.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.b-title{font-weight:800;color:#facc15}.b-sub{font-size:12px;opacity:.85}
+#toast{position:absolute;bottom:90px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.85);border:1px solid #22c55e;padding:6px 14px;border-radius:20px;opacity:0;transition:.25s;pointer-events:none;font-size:13px;white-space:nowrap;max-width:95%;overflow:hidden;text-overflow:ellipsis}
+#toast.show{opacity:1}
+#dialog{position:absolute;left:12px;right:12px;bottom:12px;background:rgba(17,24,39,.96);border:2px solid #8b5cf6;border-radius:12px;display:flex;gap:10px;padding:10px;cursor:pointer}
+#dialog.hidden{display:none}
+#dlg-face{font-size:40px;background:#1f2937;border-radius:10px;width:60px;height:60px;display:flex;align-items:center;justify-content:center}
+#dlg-name{color:#c4b5fd;font-weight:800;font-size:14px}#dlg-text{margin:4px 0;font-size:14px;line-height:1.4}
+#dlg-opts{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.dlg-btn{background:#6d28d9;border:none;color:#fff;padding:6px 12px;border-radius:8px;cursor:pointer;font-size:13px}
+.dlg-btn:hover{background:#7c3aed}
+#dlg-hint{font-size:11px;opacity:.6;margin-top:4px}
+.overlay{position:absolute;inset:0;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;z-index:5}
+.overlay.hidden{display:none}
+.panel{background:#111827;border:2px solid #6d28d9;border-radius:14px;padding:20px;max-width:560px;width:92%;max-height:92%;overflow:auto;text-align:center}
+.panel h1,.panel h2{color:#facc15;margin-top:0}
+.panel button{background:#6d28d9;color:#fff;border:none;padding:10px 16px;border-radius:10px;margin:4px;cursor:pointer;font-size:14px}
+.panel button.ghost{background:#374151}
+.controls{font-size:13px;background:#1f2937;padding:8px;border-radius:8px}
+#inv-items{text-align:left;max-height:260px;overflow:auto}
+.inv-item{display:flex;gap:10px;background:#1f2937;margin:6px 0;padding:8px;border-radius:8px;font-size:13px}
+.inv-ico{font-size:28px}
+.row{display:flex;flex-wrap:wrap;justify-content:center}
+#win-stats{text-align:left;background:#1f2937;padding:10px;border-radius:8px;margin:10px 0}
+#touch{display:none}
+@media(pointer:coarse){
+  #touch{display:flex;justify-content:space-between;position:absolute;bottom:110px;left:8px;right:8px;pointer-events:none}
+  #touch button{pointer-events:auto;width:52px;height:52px;font-size:20px;border-radius:50%;border:2px solid #8b5cf6;background:rgba(17,24,39,.7);color:#fff;margin:2px}
+  .dpad{text-align:center}
+}
+footer{text-align:center;font-size:11px;opacity:.5;margin:8px}
